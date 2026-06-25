@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+@source inline("bg-emerald-500 bg-indigo-500 bg-violet-500");
+
+@font-face {
+    font-family: 'Pretendard';
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+    src: url('../fonts/PretendardVariable.woff2') format('woff2-variations');
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: 'Pretendard', ui-sans-serif, system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Lighten the heavy weights — Pretendard's bold reads too thick for Hangul at
+       admin density, so font-bold → 600 and font-semibold → 550. */
+    --font-weight-semibold: 550;
+    --font-weight-bold: 600;
+
+    --color-zinc-50: #fafafa;
+    --color-zinc-100: #f5f5f5;
+    --color-zinc-200: #e5e5e5;
+    --color-zinc-300: #d4d4d4;
+    --color-zinc-400: #a3a3a3;
+    --color-zinc-500: #737373;
+    --color-zinc-600: #525252;
+    --color-zinc-700: #404040;
+    --color-zinc-800: #262626;
+    --color-zinc-900: #171717;
+    --color-zinc-950: #0a0a0a;
+
+    --color-accent: #4f46e5;            /* indigo-600 */
+    --color-accent-content: #4f46e5;
+    --color-accent-foreground: #ffffff;
+
+    --radius-sharp: 2px;
+    --radius-xs: var(--radius-sharp);
+    --radius-sm: var(--radius-sharp);
+    --radius-md: var(--radius-sharp);
+    --radius-lg: var(--radius-sharp);
+    --radius-xl: var(--radius-sharp);
+    --radius-2xl: var(--radius-sharp);
+    --radius-3xl: var(--radius-sharp);
+    --radius-4xl: var(--radius-sharp);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: #818cf8;        /* indigo-400 — pops on dark */
+        --color-accent-content: #818cf8;
+        --color-accent-foreground: #1e1b4b;
+
+        /* "Softened Indigo (A2)" — lift the dark surfaces one notch above near-black
+           for clearer card elevation and softer contrast, keeping the cool indigo
+           tone. Dark-mode only; the global @theme zinc scale (light mode) is unchanged.
+           Flux's dark surfaces + our frozen-column/sort-caret CSS all read these vars. */
+        --color-zinc-700: #434956;      /* borders / dividers */
+        --color-zinc-800: #2a2d37;      /* cards, table, header surface */
+        --color-zinc-900: #20222b;      /* sidebar / body panels */
+        --color-zinc-950: #191b22;      /* deepest body background */
+    }
+}
+
+@layer base {
+
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+
+    body {
+        font-size: 0.8125rem;   /* 13px admin-dense base */
+    }
+
+    /* Preflight makes <b>/<strong> "bolder" (→700); align them with our lighter
+       bold token so semantic bold matches the font-bold utility (600). */
+    b,
+    strong {
+        font-weight: var(--font-weight-bold);
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+[data-flux-field]:not(ui-radio, ui-checkbox) {
+    @apply grid gap-2;
+}
+
+[data-flux-label] {
+    @apply  !mb-0 !leading-tight;
+}
+
+input:focus[data-flux-control],
+textarea:focus[data-flux-control],
+select:focus[data-flux-control] {
+    @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
+}
+
+/* \[:where(&)\]:size-4 {
+    @apply size-4;
+} */
+
+/*
+ * Freeze the leading columns of selectable admin tables so the row stays
+ * identifiable while scrolling 15–28 columns sideways (desktop + mobile).
+ * The checkbox column (col 1, fixed 2.5rem) is frozen here in pure CSS so it
+ * is instant and JS-independent; any additional identifier columns are frozen
+ * by the `adminTable` Alpine helper (it measures widths and adds `.is-stuck`),
+ * because their widths vary. Both selectors share the same sticky styling.
+ */
+[data-flux-main] .admin-table--select thead th:first-child,
+[data-flux-main] .admin-table--select tbody td:first-child,
+[data-flux-main] .admin-table .is-stuck {
+    position: sticky;
+    z-index: 1;
+    background-color: var(--color-white);
+    box-shadow: 1px 0 0 0 var(--color-zinc-200);
+}
+
+[data-flux-main] .admin-table--select thead th:first-child,
+[data-flux-main] .admin-table thead .is-stuck {
+    z-index: 2;
+    background-color: var(--color-zinc-50);
+}
+
+[data-flux-main] .admin-table--select thead th:first-child,
+[data-flux-main] .admin-table--select tbody td:first-child {
+    left: 0;
+}
+
+[data-flux-main] .admin-table--select tbody tr:hover td:first-child,
+[data-flux-main] .admin-table tbody tr:hover .is-stuck {
+    background-color: var(--color-zinc-50);
+}
+
+.dark [data-flux-main] .admin-table--select thead th:first-child,
+.dark [data-flux-main] .admin-table--select tbody td:first-child,
+.dark [data-flux-main] .admin-table .is-stuck {
+    background-color: var(--color-zinc-800);
+    box-shadow: 1px 0 0 0 var(--color-zinc-700);
+}
+
+.dark [data-flux-main] .admin-table--select thead th:first-child,
+.dark [data-flux-main] .admin-table thead .is-stuck {
+    background-color: var(--color-zinc-900);
+}
+
+.dark [data-flux-main] .admin-table--select tbody tr:hover td:first-child,
+.dark [data-flux-main] .admin-table tbody tr:hover .is-stuck {
+    background-color: var(--color-zinc-700);
+}
+
+/* Mobile portrait: tighten the content padding (Flux main is p-6 by default) so the
+   title sits higher and tables get more horizontal room. Desktop (lg:p-8) is unchanged. */
+@media (max-width: 1023px) {
+    [data-flux-main] {
+        padding: 0.5rem;
+    }
+}
+
+/* Freeze just the first column on mobile for non-selectable wide tables
+   (x-admin.table :stick-first). Keeps the row identifier visible while scrolling
+   sideways on a phone; desktop is unaffected. */
+@media (max-width: 1023px) {
+    [data-flux-main] .admin-table--stick-first thead th:first-child,
+    [data-flux-main] .admin-table--stick-first tbody td:first-child {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: var(--color-white);
+        box-shadow: 1px 0 0 0 var(--color-zinc-200);
+    }
+
+    [data-flux-main] .admin-table--stick-first thead th:first-child {
+        z-index: 2;
+        background-color: var(--color-zinc-50);
+    }
+
+    [data-flux-main] .admin-table--stick-first tbody tr:hover td:first-child {
+        background-color: var(--color-zinc-50);
+    }
+
+    .dark [data-flux-main] .admin-table--stick-first thead th:first-child,
+    .dark [data-flux-main] .admin-table--stick-first tbody td:first-child {
+        background-color: var(--color-zinc-800);
+        box-shadow: 1px 0 0 0 var(--color-zinc-700);
+    }
+
+    .dark [data-flux-main] .admin-table--stick-first thead th:first-child {
+        background-color: var(--color-zinc-900);
+    }
+
+    .dark [data-flux-main] .admin-table--stick-first tbody tr:hover td:first-child {
+        background-color: var(--color-zinc-700);
+    }
+}
+
+/* Live-monitoring pulse dot (Live Users page): green = active, amber = idle. */
+.live-dot {
+    position: relative;
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    flex: none;
+    border-radius: 9999px;
+    background-color: var(--color-emerald-500);
+}
+
+.live-dot::after {
+    content: "";
+    position: absolute;
+    inset: -0.25rem;
+    border-radius: 9999px;
+    background-color: var(--color-emerald-500);
+    opacity: 0.35;
+    animation: live-pulse 1.6s ease-out infinite;
+}
+
+.live-dot--idle,
+.live-dot--idle::after {
+    background-color: var(--color-amber-500);
+}
+
+@keyframes live-pulse {
+    0% { transform: scale(0.6); opacity: 0.5; }
+    70% { transform: scale(1.9); opacity: 0; }
+    100% { opacity: 0; }
+}
+
+/* Compact row density (toggled by the list-tools density button). */
+[data-flux-main] .admin-table--compact td,
+[data-flux-main] .admin-table--compact th {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+/* Sortable column headers (client-side sort via the adminTable Alpine helper). */
+[data-flux-main] .admin-table thead th[data-sort-ready]:hover {
+    color: var(--color-zinc-700);
+}
+
+.dark [data-flux-main] .admin-table thead th[data-sort-ready]:hover {
+    color: var(--color-zinc-200);
+}
+
+[data-flux-main] .admin-table thead th[data-sort-dir="asc"]::after {
+    content: "▲";
+    margin-inline-start: 0.25rem;
+    font-size: 0.6em;
+    vertical-align: middle;
+    opacity: 0.7;
+}
+
+[data-flux-main] .admin-table thead th[data-sort-dir="desc"]::after {
+    content: "▼";
+    margin-inline-start: 0.25rem;
+    font-size: 0.6em;
+    vertical-align: middle;
+    opacity: 0.7;
+}
