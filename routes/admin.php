@@ -12,6 +12,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::livewire('users', 'pages::admin.users.index')->name('users');
     Route::livewire('roles', 'pages::admin.roles.index')->name('roles');
     Route::livewire('permissions', 'pages::admin.permissions.index')->name('permissions');
+    Route::livewire('activity-logs', 'pages::admin.activity.index')->name('activity-logs');
 
     Route::livewire('members', 'pages::admin.members.index')->name('members');
     Route::livewire('members/create', 'pages::admin.members.form')->name('members.create');
@@ -34,4 +35,14 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     // Settings — gateway (provider) settings and advanced settings.
     Route::livewire('settings/provider', 'pages::admin.settings.provider')->name('settings.provider');
     Route::livewire('settings/advanced', 'pages::admin.settings.advanced')->name('settings.advanced');
+
+    // Reports — sales & revenue analytics (catalog, grouped sales report, daily chart).
+    Route::livewire('reports', 'pages::admin.reports.index')->name('reports');
+    Route::livewire('reports/sales', 'pages::admin.reports.sales')->name('reports.sales');
+    Route::livewire('reports/daily', 'pages::admin.reports.daily')->name('reports.daily');
+
+    // Engagement — coupons & events, support tickets, announcements & popups.
+    Route::livewire('coupons', 'pages::admin.coupons.index')->name('coupons');
+    Route::livewire('tickets', 'pages::admin.tickets.index')->name('tickets');
+    Route::livewire('announcements', 'pages::admin.announcements.index')->name('announcements');
 });

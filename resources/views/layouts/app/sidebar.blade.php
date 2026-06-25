@@ -54,12 +54,24 @@
                     </flux:sidebar.item>
                 </flux:sidebar.group>
 
+                <flux:sidebar.group :heading="__('Reports')" icon="chart-bar" expandable :expanded="request()->routeIs('admin.reports*')">
+                    <flux:sidebar.item icon="table-cells" :href="route('admin.reports')" :current="request()->routeIs('admin.reports')" wire:navigate>{{ __('All Reports') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="document-chart-bar" :href="route('admin.reports.sales')" :current="request()->routeIs('admin.reports.sales')" wire:navigate>{{ __('Sales Report') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="chart-bar-square" :href="route('admin.reports.daily')" :current="request()->routeIs('admin.reports.daily')" wire:navigate>{{ __('Daily Sales') }}</flux:sidebar.item>
+                </flux:sidebar.group>
+
+                <flux:sidebar.group :heading="__('Engagement')" icon="megaphone" expandable :expanded="request()->routeIs('admin.coupons') || request()->routeIs('admin.tickets') || request()->routeIs('admin.announcements')">
+                    <flux:sidebar.item icon="ticket" :href="route('admin.coupons')" :current="request()->routeIs('admin.coupons')" wire:navigate>{{ __('Coupons & Events') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="lifebuoy" :href="route('admin.tickets')" :current="request()->routeIs('admin.tickets')" wire:navigate>{{ __('Support Tickets') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="megaphone" :href="route('admin.announcements')" :current="request()->routeIs('admin.announcements')" wire:navigate>{{ __('Announcements') }}</flux:sidebar.item>
+                </flux:sidebar.group>
+
                 <flux:sidebar.group :heading="__('Settings')" icon="cog-6-tooth" expandable :expanded="request()->routeIs('admin.settings.*')">
                     <flux:sidebar.item icon="credit-card" :href="route('admin.settings.provider')" :current="request()->routeIs('admin.settings.provider')" wire:navigate>{{ __('Gateway settings') }}</flux:sidebar.item>
                     <flux:sidebar.item icon="adjustments-horizontal" :href="route('admin.settings.advanced')" :current="request()->routeIs('admin.settings.advanced')" wire:navigate>{{ __('Advanced settings') }}</flux:sidebar.item>
                 </flux:sidebar.group>
 
-                <flux:sidebar.group :heading="__('System')" icon="shield-check" expandable :expanded="request()->routeIs('admin.users') || request()->routeIs('admin.roles') || request()->routeIs('admin.permissions')">
+                <flux:sidebar.group :heading="__('System')" icon="shield-check" expandable :expanded="request()->routeIs('admin.users') || request()->routeIs('admin.roles') || request()->routeIs('admin.permissions') || request()->routeIs('admin.activity-logs')">
                     <flux:sidebar.item icon="users" :href="route('admin.users')" :current="request()->routeIs('admin.users')" wire:navigate>
                         {{ __('Users') }}
                     </flux:sidebar.item>
@@ -68,6 +80,9 @@
                     </flux:sidebar.item>
                     <flux:sidebar.item icon="key" :href="route('admin.permissions')" :current="request()->routeIs('admin.permissions')" wire:navigate>
                         {{ __('Permissions') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="clipboard-document-list" :href="route('admin.activity-logs')" :current="request()->routeIs('admin.activity-logs')" wire:navigate>
+                        {{ __('Activity Logs') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>

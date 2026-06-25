@@ -266,4 +266,311 @@ class AdminDemoData
 
         return $rows;
     }
+
+    /**
+     * Grouped Sales Report figures (proposal §6). Each group is a labelled block of
+     * metric cells; `tone` drives the colour in the view (pos = green, warn = amber,
+     * highlight = blue, plain = default). Values are pre-formatted PHP (₱) strings so
+     * the demo reads exactly like the documentation.
+     *
+     * @return array<string, array{label:string, cells:array<int, array{label:string, value:string, tone:string}>}>
+     */
+    public static function salesReport(): array
+    {
+        return [
+            'depositWithdrawal' => [
+                'label' => __('Deposit & Withdrawal Summary'),
+                'cells' => [
+                    ['label' => __('Total Deposit Amount'), 'value' => '₱4,820,500.00', 'tone' => 'pos'],
+                    ['label' => __('Total Deposit Count'), 'value' => '248', 'tone' => 'plain'],
+                    ['label' => __('Total Withdrawal Amount'), 'value' => '₱1,230,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Withdrawal Count'), 'value' => '134', 'tone' => 'warn'],
+                    ['label' => __('Net Difference (Deposit − Withdrawal)'), 'value' => '₱3,590,500.00', 'tone' => 'highlight'],
+                    ['label' => __('Total Agent Balance'), 'value' => '₱96,250,000.00', 'tone' => 'plain'],
+                ],
+            ],
+            'allGames' => [
+                'label' => __('All Games — Betting Revenue'),
+                'cells' => [
+                    ['label' => __('Total Betting Amount'), 'value' => '₱12,540,000.00', 'tone' => 'plain'],
+                    ['label' => __('Total Payment Points (Win)'), 'value' => '₱11,820,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Dividend Amount (Commission)'), 'value' => '₱375,600.00', 'tone' => 'warn'],
+                    ['label' => __('Total Profit'), 'value' => '₱344,400.00', 'tone' => 'highlight'],
+                ],
+            ],
+            'slots' => [
+                'label' => __('Slot Games — Betting Revenue'),
+                'cells' => [
+                    ['label' => __('Total Slot Betting Amount'), 'value' => '₱6,320,000.00', 'tone' => 'plain'],
+                    ['label' => __('Total Slot Payment Points (Win)'), 'value' => '₱5,940,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Slot Dividend Amount'), 'value' => '₱189,600.00', 'tone' => 'warn'],
+                    ['label' => __('Total Slot Profit'), 'value' => '₱190,400.00', 'tone' => 'highlight'],
+                ],
+            ],
+            'casino' => [
+                'label' => __('Casino / Table Games — Betting Revenue'),
+                'cells' => [
+                    ['label' => __('Total Casino Betting Amount'), 'value' => '₱6,220,000.00', 'tone' => 'plain'],
+                    ['label' => __('Total Casino Payment Points (Win)'), 'value' => '₱5,880,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Casino Dividend Amount'), 'value' => '₱186,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Casino Profit'), 'value' => '₱154,000.00', 'tone' => 'highlight'],
+                ],
+            ],
+            'playerTransactions' => [
+                'label' => __('Player Transaction Summary'),
+                'cells' => [
+                    ['label' => __('Total Player Deposit Amount'), 'value' => '₱4,820,500.00', 'tone' => 'plain'],
+                    ['label' => __('Total Player Withdrawal Amount'), 'value' => '₱1,230,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Player Bet Amount'), 'value' => '₱12,540,000.00', 'tone' => 'plain'],
+                    ['label' => __('Total Player Win Amount'), 'value' => '₱11,820,000.00', 'tone' => 'warn'],
+                    ['label' => __('Total Player Profit (Company)'), 'value' => '₱344,400.00', 'tone' => 'highlight'],
+                ],
+            ],
+            'agentWorksheet' => [
+                'label' => __('Agent Payment Worksheet'),
+                'cells' => [
+                    ['label' => __('Advance Deposit (from Agent)'), 'value' => '₱5,000,000.00', 'tone' => 'plain'],
+                    ['label' => __('Total Store Deposit'), 'value' => '₱4,820,500.00', 'tone' => 'plain'],
+                    ['label' => __('Total Store Withdrawal'), 'value' => '₱1,230,000.00', 'tone' => 'warn'],
+                    ['label' => __('Agent Convert Commission'), 'value' => '₱375,600.00', 'tone' => 'warn'],
+                    ['label' => __('Website Commission (1%)'), 'value' => '₱48,205.00', 'tone' => 'warn'],
+                    ['label' => __('Bank Commission (0.5%)'), 'value' => '₱24,102.50', 'tone' => 'warn'],
+                    ['label' => __('Provider Commission (0.75%)'), 'value' => '₱36,153.75', 'tone' => 'warn'],
+                    ['label' => __('Remaining Deposit (Final Balance)'), 'value' => '₱485,538.75', 'tone' => 'highlight'],
+                ],
+            ],
+            'commission' => [
+                'label' => __('Agent Commission Summary'),
+                'cells' => [
+                    ['label' => __('Total Agent Commission Amount'), 'value' => '₱375,600.00', 'tone' => 'plain'],
+                    ['label' => __('Total Commission Count'), 'value' => '1,482', 'tone' => 'plain'],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Seven-day deposit / withdrawal / profit series for the daily sales bar chart
+     * (proposal §6). Amounts are in PHP (₱).
+     *
+     * @return array<int, array{day:string, deposit:int, withdraw:int, profit:int}>
+     */
+    public static function dailySeries(): array
+    {
+        return [
+            ['day' => __('Mon'), 'deposit' => 3_180_000, 'withdraw' => 1_520_000, 'profit' => 740_000],
+            ['day' => __('Tue'), 'deposit' => 3_980_000, 'withdraw' => 2_310_000, 'profit' => 880_000],
+            ['day' => __('Wed'), 'deposit' => 2_640_000, 'withdraw' => 1_280_000, 'profit' => 610_000],
+            ['day' => __('Thu'), 'deposit' => 4_720_000, 'withdraw' => 2_580_000, 'profit' => 1_120_000],
+            ['day' => __('Fri'), 'deposit' => 3_420_000, 'withdraw' => 1_810_000, 'profit' => 790_000],
+            ['day' => __('Sat'), 'deposit' => 4_210_000, 'withdraw' => 2_870_000, 'profit' => 690_000],
+            ['day' => __('Sun'), 'deposit' => 4_820_500, 'withdraw' => 2_280_000, 'profit' => 1_310_000],
+        ];
+    }
+
+    /**
+     * Catalog of every available report (proposal §6 "All Available Reports"). `route`
+     * links the row to a live demo page where one exists; the rest are demo stubs.
+     *
+     * @return array<int, array{name:string, metrics:string, grouping:string, export:string, route:?string, param:?string}>
+     */
+    public static function reportCatalog(): array
+    {
+        return [
+            ['name' => __('Daily Sales Report'), 'metrics' => __('Deposits, withdrawals, net revenue, tx count, new players'), 'grouping' => __('By hour, brand, agent'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.daily', 'param' => null],
+            ['name' => __('Sales Report (grouped)'), 'metrics' => __('Deposit/withdrawal, all games, slots, casino, agent worksheet'), 'grouping' => __('By brand, agent, game'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.sales', 'param' => null],
+            ['name' => __('Period Sales Report'), 'metrics' => __('Weekly / monthly / yearly with trend comparison'), 'grouping' => __('By week, month, quarter, year'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
+            ['name' => __('Profit & Loss Report'), 'metrics' => __('Gross revenue, bonus costs, promo costs, operating profit'), 'grouping' => __('By brand, game type'), 'export' => 'Excel · PDF', 'route' => null, 'param' => null],
+            ['name' => __('Deposit Summary'), 'metrics' => __('Count, total ₱, avg., method breakdown, approval rate'), 'grouping' => __('By payment method, brand'), 'export' => 'Excel · CSV', 'route' => 'admin.transactions', 'param' => 'deposit'],
+            ['name' => __('Withdrawal Summary'), 'metrics' => __('Count, total ₱, avg. processing time, rejection rate'), 'grouping' => __('By status, brand, agent'), 'export' => 'Excel · CSV', 'route' => 'admin.transactions', 'param' => 'withdraw'],
+            ['name' => __('Betting Report'), 'metrics' => __('Total bets, payout, house edge %, win/loss by game'), 'grouping' => __('By game type, provider'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
+            ['name' => __('Player Activity Report'), 'metrics' => __('New signups, active, churned, retention, avg. session'), 'grouping' => __('By brand, agent, VIP tier'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
+            ['name' => __('Agent Commission Report'), 'metrics' => __('Commission earned, player count, volume, rolling rate'), 'grouping' => __('By agent, period'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
+            ['name' => __('Brand Comparison Report'), 'metrics' => __('Revenue, player count, retention side-by-side'), 'grouping' => __('All / selected brands'), 'export' => 'Excel · PDF', 'route' => null, 'param' => null],
+            ['name' => __('Coupon Usage Report'), 'metrics' => __('Issued, redeemed, expired, redemption rate, cost'), 'grouping' => __('By coupon type, event'), 'export' => 'Excel · CSV', 'route' => 'admin.coupons', 'param' => null],
+        ];
+    }
+
+    /**
+     * Top players today leaderboard for the dashboard (proposal §3).
+     *
+     * @return array<int, array{username:string, level:int, metric:string, amount:int}>
+     */
+    public static function topPlayers(): array
+    {
+        return [
+            ['username' => 'player012', 'level' => 5, 'metric' => __('Highest deposit'), 'amount' => 480_000],
+            ['username' => 'player004', 'level' => 4, 'metric' => __('Highest wagering'), 'amount' => 415_000],
+            ['username' => 'player027', 'level' => 3, 'metric' => __('Highest win'), 'amount' => 362_000],
+            ['username' => 'player008', 'level' => 4, 'metric' => __('Highest deposit'), 'amount' => 305_000],
+            ['username' => 'player015', 'level' => 2, 'metric' => __('Highest wagering'), 'amount' => 268_000],
+        ];
+    }
+
+    /**
+     * Live transaction ticker for the dashboard (proposal §3). The view rotates the
+     * window on each poll so it feels real-time without a broadcast backend.
+     *
+     * @return array<int, array{username:string, gateway:string, direction:string, amount:int, time:string}>
+     */
+    public static function liveFeed(): array
+    {
+        $rows = [
+            ['username' => 'player021', 'gateway' => 'GCash', 'direction' => 'deposit', 'amount' => 5_000],
+            ['username' => 'player008', 'gateway' => 'Maya', 'direction' => 'withdraw', 'amount' => 12_000],
+            ['username' => 'player044', 'gateway' => 'GoTyme', 'direction' => 'deposit', 'amount' => 2_500],
+            ['username' => 'player017', 'gateway' => 'GCash', 'direction' => 'deposit', 'amount' => 8_000],
+            ['username' => 'player033', 'gateway' => 'Maya', 'direction' => 'deposit', 'amount' => 1_500],
+            ['username' => 'player002', 'gateway' => 'GoTyme', 'direction' => 'withdraw', 'amount' => 6_500],
+            ['username' => 'player056', 'gateway' => 'GCash', 'direction' => 'deposit', 'amount' => 10_000],
+            ['username' => 'player011', 'gateway' => 'Maya', 'direction' => 'deposit', 'amount' => 3_000],
+        ];
+
+        // Rotate by the current 10-second window so each poll surfaces a fresh order.
+        $offset = (int) floor(now()->timestamp / 10) % count($rows);
+
+        $mapped = collect($rows)
+            ->map(fn ($r, $i) => $r + ['time' => now()->subSeconds(($i + 1) * 7)->format('H:i:s')])
+            ->values();
+
+        return $mapped->slice($offset)->concat($mapped->slice(0, $offset))->values()->all();
+    }
+
+    /**
+     * Coupon catalog (proposal §9). Mix of fixed-₱ and percentage coupons across the
+     * active / scheduled / expired / disabled lifecycle.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function coupons(): array
+    {
+        return [
+            ['id' => 1, 'code' => 'WELCOME100', 'type' => 'fixed', 'value' => 100, 'minDeposit' => 500, 'rollover' => 10, 'expiry' => '2026-07-31', 'maxUses' => 1000, 'used' => 642, 'status' => 'active'],
+            ['id' => 2, 'code' => 'RELOAD20', 'type' => 'percent', 'value' => 20, 'minDeposit' => 1000, 'rollover' => 12, 'expiry' => '2026-07-15', 'maxUses' => 500, 'used' => 318, 'status' => 'active'],
+            ['id' => 3, 'code' => 'WEEKEND15', 'type' => 'percent', 'value' => 15, 'minDeposit' => 800, 'rollover' => 8, 'expiry' => '2026-06-30', 'maxUses' => 800, 'used' => 455, 'status' => 'active'],
+            ['id' => 4, 'code' => 'VIPGOLD500', 'type' => 'fixed', 'value' => 500, 'minDeposit' => 5000, 'rollover' => 15, 'expiry' => '2026-08-31', 'maxUses' => 100, 'used' => 12, 'status' => 'scheduled'],
+            ['id' => 5, 'code' => 'CASHBACK10', 'type' => 'percent', 'value' => 10, 'minDeposit' => 0, 'rollover' => 5, 'expiry' => '2026-06-20', 'maxUses' => 2000, 'used' => 2000, 'status' => 'expired'],
+            ['id' => 6, 'code' => 'REFER250', 'type' => 'fixed', 'value' => 250, 'minDeposit' => 1000, 'rollover' => 10, 'expiry' => '2026-07-31', 'maxUses' => 600, 'used' => 187, 'status' => 'active'],
+            ['id' => 7, 'code' => 'BIRTHDAY1K', 'type' => 'fixed', 'value' => 1000, 'minDeposit' => 2000, 'rollover' => 20, 'expiry' => '2026-12-31', 'maxUses' => 300, 'used' => 41, 'status' => 'active'],
+            ['id' => 8, 'code' => 'FLASH30', 'type' => 'percent', 'value' => 30, 'minDeposit' => 1500, 'rollover' => 18, 'expiry' => '2026-06-10', 'maxUses' => 400, 'used' => 400, 'status' => 'disabled'],
+        ];
+    }
+
+    /**
+     * Time-limited promotional events (proposal §9).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function events(): array
+    {
+        return [
+            ['id' => 1, 'name' => __('First Deposit Bonus'), 'type' => __('Deposit match'), 'reward' => __('100% up to ₱2,000'), 'period' => '2026-06-01 → 2026-07-31', 'status' => 'active'],
+            ['id' => 2, 'name' => __('Weekend Cashback'), 'type' => __('Cashback'), 'reward' => __('10% of net loss'), 'period' => __('Every Sat–Sun'), 'status' => 'active'],
+            ['id' => 3, 'name' => __('Referral Bonus'), 'type' => __('Referral'), 'reward' => __('₱250 per referral'), 'period' => __('Ongoing'), 'status' => 'active'],
+            ['id' => 4, 'name' => __('Lunar Festival Raffle'), 'type' => __('Raffle'), 'reward' => __('₱500,000 prize pool'), 'period' => '2026-08-01 → 2026-08-15', 'status' => 'scheduled'],
+        ];
+    }
+
+    /**
+     * Support ticket queue with an inline conversation thread and account snapshot
+     * (proposal §10).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function tickets(): array
+    {
+        return [
+            [
+                'id' => 4821, 'player' => 'player012', 'subject' => __('Deposit not credited'), 'brand' => 'Dolphin',
+                'priority' => 'urgent', 'status' => 'open', 'updated' => '2026-06-25 14:32', 'balance' => 250_000, 'lastTx' => __('₱5,000 GCash deposit · pending'),
+                'thread' => [
+                    ['from' => 'player', 'body' => __('I deposited ₱5,000 via GCash 20 minutes ago but my balance has not updated.'), 'time' => '14:10'],
+                    ['from' => 'agent', 'body' => __('Hi, thank you for reaching out. Let me check the transaction reference for you now.'), 'time' => '14:18'],
+                ],
+            ],
+            [
+                'id' => 4820, 'player' => 'player004', 'subject' => __('Withdrawal taking too long'), 'brand' => 'Champion',
+                'priority' => 'high', 'status' => 'in_progress', 'updated' => '2026-06-25 13:05', 'balance' => 88_500, 'lastTx' => __('₱12,000 Maya withdrawal · processing'),
+                'thread' => [
+                    ['from' => 'player', 'body' => __('My withdrawal has been processing for 2 hours. Any update?'), 'time' => '11:50'],
+                    ['from' => 'agent', 'body' => __('It is in the finance approval queue and will be released shortly.'), 'time' => '12:40'],
+                ],
+            ],
+            [
+                'id' => 4819, 'player' => 'player027', 'subject' => __('How do I claim the weekend cashback?'), 'brand' => 'Hera',
+                'priority' => 'normal', 'status' => 'open', 'updated' => '2026-06-25 10:22', 'balance' => 41_200, 'lastTx' => __('₱2,500 GoTyme deposit · completed'),
+                'thread' => [
+                    ['from' => 'player', 'body' => __('Where can I find the weekend cashback coupon?'), 'time' => '10:22'],
+                ],
+            ],
+            [
+                'id' => 4818, 'player' => 'player008', 'subject' => __('Password reset request'), 'brand' => 'Dolphin',
+                'priority' => 'low', 'status' => 'closed', 'updated' => '2026-06-24 19:48', 'balance' => 305_000, 'lastTx' => __('₱8,000 GCash deposit · completed'),
+                'thread' => [
+                    ['from' => 'player', 'body' => __('Please reset my password, I am locked out.'), 'time' => '19:10'],
+                    ['from' => 'agent', 'body' => __('Done — a reset link has been sent to your email. Closing this ticket.'), 'time' => '19:48'],
+                ],
+            ],
+        ];
+    }
+
+    /** Canned support replies (proposal §10). @return array<int, string> */
+    public static function cannedResponses(): array
+    {
+        return [
+            __('Thanks for your patience — your deposit is being verified and will reflect shortly.'),
+            __('Your withdrawal is in the finance approval queue and will be released within the hour.'),
+            __('A password reset link has been sent to your registered email address.'),
+            __('The bonus has been credited to your account. Please refresh to see the updated balance.'),
+        ];
+    }
+
+    /**
+     * Platform / brand announcements (proposal §11).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function announcements(): array
+    {
+        return [
+            ['id' => 1, 'title' => __('Scheduled maintenance — slots provider'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-26 02:00', 'pinned' => true, 'status' => 'scheduled', 'body' => __('Slot games will be unavailable for 30 minutes during provider maintenance.')],
+            ['id' => 2, 'title' => __('GoTyme zero-fee deposits now live'), 'audience' => 'Dolphin, Champion', 'scheduledAt' => '2026-06-25 09:00', 'pinned' => true, 'status' => 'published', 'body' => __('Deposit via GoTyme with zero transaction fees, available now.')],
+            ['id' => 3, 'title' => __('Weekend cashback returns'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-27 00:00', 'pinned' => false, 'status' => 'scheduled', 'body' => __('Earn 10% cashback on net losses every weekend.')],
+            ['id' => 4, 'title' => __('Updated KYC verification policy'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-20 12:00', 'pinned' => false, 'status' => 'published', 'body' => __('New players must complete KYC before their first withdrawal.')],
+        ];
+    }
+
+    /**
+     * Login pop-ups shown to players (proposal §11).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function popups(): array
+    {
+        return [
+            ['id' => 1, 'title' => __('Welcome Bonus'), 'audience' => __('New players'), 'frequency' => __('Once per player'), 'start' => '2026-06-01', 'end' => '2026-07-31', 'status' => 'active'],
+            ['id' => 2, 'title' => __('Weekend Cashback'), 'audience' => __('All players'), 'frequency' => __('Once per day'), 'start' => '2026-06-01', 'end' => '2026-12-31', 'status' => 'active'],
+            ['id' => 3, 'title' => __('VIP Upgrade'), 'audience' => __('Gold tier'), 'frequency' => __('Once per week'), 'start' => '2026-06-15', 'end' => '2026-09-15', 'status' => 'scheduled'],
+        ];
+    }
+
+    /**
+     * Immutable audit trail (proposal §12). Read-only — every admin action, login,
+     * transaction and setting change is recorded with before → after context.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function activityLogs(): array
+    {
+        return [
+            ['id' => 1, 'type' => 'admin_action', 'actor' => 'admin', 'action' => __('Approved withdrawal'), 'target' => 'WDL-2026000274 · player004', 'before' => 'pending', 'after' => 'completed', 'ip' => '180.191.81.10', 'at' => '2026-06-25 14:40:11'],
+            ['id' => 2, 'type' => 'transaction', 'actor' => 'system', 'action' => __('Deposit credited'), 'target' => 'DEP-2026000137 · player001', 'before' => '₱245,000', 'after' => '₱250,000', 'ip' => '—', 'at' => '2026-06-25 14:32:50'],
+            ['id' => 3, 'type' => 'login', 'actor' => 'test', 'action' => __('Admin login'), 'target' => 'test@example.com', 'before' => '—', 'after' => __('success'), 'ip' => '49.150.22.4', 'at' => '2026-06-25 14:20:03'],
+            ['id' => 4, 'type' => 'setting', 'actor' => 'admin', 'action' => __('Changed auto-credit threshold'), 'target' => 'settings.provider', 'before' => '₱3,000', 'after' => '₱5,000', 'ip' => '180.191.81.10', 'at' => '2026-06-25 11:08:44'],
+            ['id' => 5, 'type' => 'admin_action', 'actor' => 'admin', 'action' => __('Suspended member'), 'target' => 'player052', 'before' => 'normal', 'after' => 'suspended', 'ip' => '180.191.81.10', 'at' => '2026-06-25 10:55:19'],
+            ['id' => 6, 'type' => 'login', 'actor' => 'unknown', 'action' => __('Failed login'), 'target' => 'admin', 'before' => '—', 'after' => __('failure'), 'ip' => '203.177.42.91', 'at' => '2026-06-25 09:31:02'],
+            ['id' => 7, 'type' => 'transaction', 'actor' => 'admin', 'action' => __('Cancelled deposit'), 'target' => 'DEP-2026000548 · player005', 'before' => 'pending', 'after' => 'cancelled', 'ip' => '180.191.81.10', 'at' => '2026-06-24 22:14:37'],
+            ['id' => 8, 'type' => 'setting', 'actor' => 'admin', 'action' => __('Enabled GoTyme gateway'), 'target' => 'settings.provider', 'before' => 'disabled', 'after' => 'enabled', 'ip' => '180.191.81.10', 'at' => '2026-06-24 18:02:55'],
+        ];
+    }
 }
