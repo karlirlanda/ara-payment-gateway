@@ -88,7 +88,6 @@ new #[Title('Sales Report')] class extends Component {
         <flux:spacer />
         <flux:select size="sm" class="w-36"><flux:select.option>{{ __('All Brands') }}</flux:select.option></flux:select>
         <flux:select size="sm" class="w-36"><flux:select.option>{{ __('All Agents') }}</flux:select.option></flux:select>
-        <flux:select size="sm" class="w-36"><flux:select.option>{{ __('All Games') }}</flux:select.option></flux:select>
     </div>
 
     @foreach ($this->report as $group)

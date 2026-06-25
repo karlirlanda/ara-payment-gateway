@@ -58,6 +58,26 @@
                     <flux:sidebar.item icon="table-cells" :href="route('admin.reports')" :current="request()->routeIs('admin.reports')" wire:navigate>{{ __('All Reports') }}</flux:sidebar.item>
                     <flux:sidebar.item icon="document-chart-bar" :href="route('admin.reports.sales')" :current="request()->routeIs('admin.reports.sales')" wire:navigate>{{ __('Sales Report') }}</flux:sidebar.item>
                     <flux:sidebar.item icon="chart-bar-square" :href="route('admin.reports.daily')" :current="request()->routeIs('admin.reports.daily')" wire:navigate>{{ __('Daily Sales') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="calendar-days" :href="route('admin.reports.period')" :current="request()->routeIs('admin.reports.period')" wire:navigate>{{ __('Period Sales') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="scale" :href="route('admin.reports.pl')" :current="request()->routeIs('admin.reports.pl')" wire:navigate>{{ __('Profit & Loss') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="ticket" :href="route('admin.reports.coupon-usage')" :current="request()->routeIs('admin.reports.coupon-usage')" wire:navigate>{{ __('Coupon Usage') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="user-group" :href="route('admin.reports.player-activity')" :current="request()->routeIs('admin.reports.player-activity')" wire:navigate>{{ __('Player Activity') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="briefcase" :href="route('admin.reports.agent-commission')" :current="request()->routeIs('admin.reports.agent-commission')" wire:navigate>{{ __('Agent Commission') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="building-storefront" :href="route('admin.reports.brand-comparison')" :current="request()->routeIs('admin.reports.brand-comparison')" wire:navigate>{{ __('Brand Comparison') }}</flux:sidebar.item>
+                </flux:sidebar.group>
+
+                <flux:sidebar.group :heading="__('Agents')" icon="briefcase" expandable :expanded="request()->routeIs('admin.agents*')">
+                    <flux:sidebar.item icon="users" :href="route('admin.agents')" :current="request()->routeIs('admin.agents')" wire:navigate>{{ __('List & Hierarchy') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="adjustments-horizontal" :href="route('admin.agents.commissions')" :current="request()->routeIs('admin.agents.commissions')" wire:navigate>{{ __('Commission Settings') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="banknotes" :href="route('admin.agents.transactions')" :current="request()->routeIs('admin.agents.transactions')" wire:navigate>{{ __('Agent Transactions') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="trophy" :href="route('admin.agents.performance')" :current="request()->routeIs('admin.agents.performance')" wire:navigate>{{ __('Performance') }}</flux:sidebar.item>
+                </flux:sidebar.group>
+
+                <flux:sidebar.group :heading="__('Accounting')" icon="calculator" expandable :expanded="request()->routeIs('admin.accounting.*')">
+                    <flux:sidebar.item icon="calendar-days" :href="route('admin.accounting.settlement')" :current="request()->routeIs('admin.accounting.settlement')" wire:navigate>{{ __('Daily Settlement') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="chart-pie" :href="route('admin.accounting.revenue')" :current="request()->routeIs('admin.accounting.revenue')" wire:navigate>{{ __('Revenue Summary') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="scale" :href="route('admin.accounting.balance-sheet')" :current="request()->routeIs('admin.accounting.balance-sheet')" wire:navigate>{{ __('Balance Sheet') }}</flux:sidebar.item>
+                    <flux:sidebar.item icon="book-open" :href="route('admin.accounting.commission-ledger')" :current="request()->routeIs('admin.accounting.commission-ledger')" wire:navigate>{{ __('Commission Ledger') }}</flux:sidebar.item>
                 </flux:sidebar.group>
 
                 <flux:sidebar.group :heading="__('Engagement')" icon="megaphone" expandable :expanded="request()->routeIs('admin.coupons') || request()->routeIs('admin.tickets') || request()->routeIs('admin.announcements')">

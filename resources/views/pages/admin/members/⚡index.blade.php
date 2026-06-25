@@ -448,7 +448,7 @@ new #[Title('Member Management')] class extends Component {
                         <flux:icon icon="pencil-square" variant="micro" class="size-3 text-emerald-500 opacity-0 transition group-hover:opacity-100" />
                     </button>
                 </td>
-                <td class="px-3 py-2"><flux:badge size="sm" :color="$m['commissionType'] === 'betting' ? 'indigo' : 'zinc'" inset="top bottom">{{ $m['commissionType'] }}</flux:badge></td>
+                <td class="px-3 py-2"><flux:badge size="sm" :color="$m['commissionType'] === 'turnover' ? 'indigo' : 'zinc'" inset="top bottom">{{ $m['commissionType'] }}</flux:badge></td>
                 <td class="px-3 py-2 text-end">
                     <button type="button" wire:click="showPoints({{ $m['id'] }})" title="{{ __('Adjust points') }}"
                         class="group ms-auto inline-flex cursor-pointer items-center gap-1 rounded px-1.5 py-0.5 font-medium text-zinc-800 hover:bg-violet-50 hover:text-violet-700 dark:text-zinc-100 dark:hover:bg-violet-500/10 dark:hover:text-violet-400">
@@ -474,6 +474,7 @@ new #[Title('Member Management')] class extends Component {
                 <td class="px-3 py-2">{{ $m['domain'] }}</td>
                 <td class="px-3 py-2">
                     <x-admin.row-actions>
+                        <flux:button :href="route('admin.members.profile', $m['id'])" wire:navigate size="xs" variant="primary">{{ __('Profile') }}</flux:button>
                         <flux:button :href="route('admin.members.edit', $m['id'])" wire:navigate size="xs" variant="subtle">{{ __('Edit') }}</flux:button>
                         <flux:button wire:click="confirmForceLogout({{ $m['id'] }})" size="xs" variant="subtle">{{ __('Force logout') }}</flux:button>
                         <flux:button wire:click="confirmDelete({{ $m['id'] }})" size="xs" variant="danger">{{ __('Delete') }}</flux:button>
@@ -592,7 +593,8 @@ new #[Title('Member Management')] class extends Component {
                 </div>
                 <div class="flex justify-end gap-2">
                     <flux:modal.close><flux:button variant="ghost">{{ __('Close') }}</flux:button></flux:modal.close>
-                    <flux:button :href="route('admin.members.edit', $am['id'])" wire:navigate variant="primary">{{ __('Edit') }}</flux:button>
+                    <flux:button :href="route('admin.members.profile', $am['id'])" wire:navigate variant="primary">{{ __('View profile') }}</flux:button>
+                    <flux:button :href="route('admin.members.edit', $am['id'])" wire:navigate variant="filled">{{ __('Edit') }}</flux:button>
                 </div>
             @endif
         </div>

@@ -22,7 +22,7 @@ new #[Title('Member Form')] class extends Component {
     public string $memberStatus = 'normal';
     public string $memberType = 'normal';
     public string $memberClass = 'normal';
-    public string $bettingGrade = 'normal';
+    public string $accountGrade = 'normal';
     public int $balance = 0;
     public int $points = 0;
     public string $memo = '';
@@ -38,7 +38,7 @@ new #[Title('Member Form')] class extends Component {
     public string $depositAccountNo = '';
 
     public bool $commissionEnabled = true;
-    public string $commissionType = 'betting';
+    public string $commissionType = 'turnover';
     public int $depositBonusPct = 0;
     public int $referralPct = 0;
     public int $cashbackPct = 0;
@@ -70,7 +70,7 @@ new #[Title('Member Form')] class extends Component {
             'level' => ['required', 'integer', 'between:1,5'],
             'type' => ['required', 'in:offline,online'],
             'memberStatus' => ['required', 'in:normal,suspended,withdrawn'],
-            'commissionType' => ['required', 'in:betting,losing'],
+            'commissionType' => ['required', 'in:turnover,loss'],
             'phone' => ['nullable', 'string', 'max:20'],
             'email' => ['nullable', 'email'],
             'passwordConfirm' => ['nullable', 'same:password'],
@@ -129,7 +129,7 @@ new #[Title('Member Form')] class extends Component {
                     <flux:select.option value="watch">{{ __('Watch') }}</flux:select.option>
                     <flux:select.option value="caution">{{ __('Caution') }}</flux:select.option>
                 </flux:select>
-                <flux:select wire:model="bettingGrade" :label="__('Betting grade')">
+                <flux:select wire:model="accountGrade" :label="__('Account grade')">
                     <flux:select.option value="normal">{{ __('Normal') }}</flux:select.option>
                     <flux:select.option value="silver">Silver</flux:select.option>
                     <flux:select.option value="gold">Gold</flux:select.option>
@@ -173,8 +173,8 @@ new #[Title('Member Form')] class extends Component {
                 <flux:switch wire:model="commissionEnabled" :label="__('Enabled')" align="right" />
             </div>
             <flux:radio.group wire:model="commissionType" :label="__('Commission type')" variant="segmented" class="mb-4">
-                <flux:radio value="betting" :label="__('Turnover')" />
-                <flux:radio value="losing" :label="__('Loss rebate')" />
+                <flux:radio value="turnover" :label="__('Turnover')" />
+                <flux:radio value="loss" :label="__('Loss rebate')" />
             </flux:radio.group>
             <div class="grid gap-4 md:grid-cols-3">
                 <flux:input wire:model="depositBonusPct" type="number" :label="__('Deposit bonus %')" />

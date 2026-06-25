@@ -163,7 +163,7 @@ class AdminDemoData
                 'bank' => $gateway.' / '.$mobile.' / '.$holder,
                 'phone' => '+63 '.substr($mobile, 1, 3).' '.substr($mobile, 4, 3).' '.substr($mobile, 7),
                 'balance' => 1200 * $i,
-                'commissionType' => $i % 2 === 0 ? 'betting' : 'losing',
+                'commissionType' => $i % 2 === 0 ? 'turnover' : 'loss',
                 'points' => 50 * $i,
                 'deposit' => $deposit,
                 'withdraw' => $withdraw,
@@ -187,7 +187,7 @@ class AdminDemoData
      */
     public static function liveUsers(): array
     {
-        $activities = ['Lobby', 'Deposit · GCash', 'Withdraw · Maya', 'Wallet', 'Deposit · GoTyme'];
+        $activities = ['Dashboard', 'Deposit · GCash', 'Withdraw · Maya', 'Wallet', 'Deposit · GoTyme'];
         $devices = ['Chrome · Windows', 'Safari · iOS', 'Chrome · Android', 'Edge · Windows', 'Samsung · Android'];
         $lastSeen = [4, 2, 360, 0, 9, 120, 30, 600];      // seconds since last activity
         $session = [1391, 482, 8400, 72, 933, 5200, 1500, 88]; // session length in seconds
@@ -289,41 +289,12 @@ class AdminDemoData
                     ['label' => __('Total Agent Balance'), 'value' => '₱96,250,000.00', 'tone' => 'plain'],
                 ],
             ],
-            'allGames' => [
-                'label' => __('All Games — Betting Revenue'),
-                'cells' => [
-                    ['label' => __('Total Betting Amount'), 'value' => '₱12,540,000.00', 'tone' => 'plain'],
-                    ['label' => __('Total Payment Points (Win)'), 'value' => '₱11,820,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Dividend Amount (Commission)'), 'value' => '₱375,600.00', 'tone' => 'warn'],
-                    ['label' => __('Total Profit'), 'value' => '₱344,400.00', 'tone' => 'highlight'],
-                ],
-            ],
-            'slots' => [
-                'label' => __('Slot Games — Betting Revenue'),
-                'cells' => [
-                    ['label' => __('Total Slot Betting Amount'), 'value' => '₱6,320,000.00', 'tone' => 'plain'],
-                    ['label' => __('Total Slot Payment Points (Win)'), 'value' => '₱5,940,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Slot Dividend Amount'), 'value' => '₱189,600.00', 'tone' => 'warn'],
-                    ['label' => __('Total Slot Profit'), 'value' => '₱190,400.00', 'tone' => 'highlight'],
-                ],
-            ],
-            'casino' => [
-                'label' => __('Casino / Table Games — Betting Revenue'),
-                'cells' => [
-                    ['label' => __('Total Casino Betting Amount'), 'value' => '₱6,220,000.00', 'tone' => 'plain'],
-                    ['label' => __('Total Casino Payment Points (Win)'), 'value' => '₱5,880,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Casino Dividend Amount'), 'value' => '₱186,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Casino Profit'), 'value' => '₱154,000.00', 'tone' => 'highlight'],
-                ],
-            ],
             'playerTransactions' => [
                 'label' => __('Player Transaction Summary'),
                 'cells' => [
                     ['label' => __('Total Player Deposit Amount'), 'value' => '₱4,820,500.00', 'tone' => 'plain'],
                     ['label' => __('Total Player Withdrawal Amount'), 'value' => '₱1,230,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Player Bet Amount'), 'value' => '₱12,540,000.00', 'tone' => 'plain'],
-                    ['label' => __('Total Player Win Amount'), 'value' => '₱11,820,000.00', 'tone' => 'warn'],
-                    ['label' => __('Total Player Profit (Company)'), 'value' => '₱344,400.00', 'tone' => 'highlight'],
+                    ['label' => __('Net Player Movement'), 'value' => '₱3,590,500.00', 'tone' => 'highlight'],
                 ],
             ],
             'agentWorksheet' => [
@@ -378,16 +349,15 @@ class AdminDemoData
     {
         return [
             ['name' => __('Daily Sales Report'), 'metrics' => __('Deposits, withdrawals, net revenue, tx count, new players'), 'grouping' => __('By hour, brand, agent'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.daily', 'param' => null],
-            ['name' => __('Sales Report (grouped)'), 'metrics' => __('Deposit/withdrawal, all games, slots, casino, agent worksheet'), 'grouping' => __('By brand, agent, game'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.sales', 'param' => null],
-            ['name' => __('Period Sales Report'), 'metrics' => __('Weekly / monthly / yearly with trend comparison'), 'grouping' => __('By week, month, quarter, year'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
-            ['name' => __('Profit & Loss Report'), 'metrics' => __('Gross revenue, bonus costs, promo costs, operating profit'), 'grouping' => __('By brand, game type'), 'export' => 'Excel · PDF', 'route' => null, 'param' => null],
+            ['name' => __('Sales Report (grouped)'), 'metrics' => __('Deposit/withdrawal summary, player transactions, agent worksheet, commission'), 'grouping' => __('By brand, agent'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.sales', 'param' => null],
+            ['name' => __('Period Sales Report'), 'metrics' => __('Weekly / monthly / yearly with trend comparison'), 'grouping' => __('By week, month, quarter, year'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.period', 'param' => null],
+            ['name' => __('Profit & Loss Report'), 'metrics' => __('Gross revenue, bonus costs, promo costs, operating profit'), 'grouping' => __('By brand, game type'), 'export' => 'Excel · PDF', 'route' => 'admin.reports.pl', 'param' => null],
             ['name' => __('Deposit Summary'), 'metrics' => __('Count, total ₱, avg., method breakdown, approval rate'), 'grouping' => __('By payment method, brand'), 'export' => 'Excel · CSV', 'route' => 'admin.transactions', 'param' => 'deposit'],
             ['name' => __('Withdrawal Summary'), 'metrics' => __('Count, total ₱, avg. processing time, rejection rate'), 'grouping' => __('By status, brand, agent'), 'export' => 'Excel · CSV', 'route' => 'admin.transactions', 'param' => 'withdraw'],
-            ['name' => __('Betting Report'), 'metrics' => __('Total bets, payout, house edge %, win/loss by game'), 'grouping' => __('By game type, provider'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
-            ['name' => __('Player Activity Report'), 'metrics' => __('New signups, active, churned, retention, avg. session'), 'grouping' => __('By brand, agent, VIP tier'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
-            ['name' => __('Agent Commission Report'), 'metrics' => __('Commission earned, player count, volume, rolling rate'), 'grouping' => __('By agent, period'), 'export' => 'Excel · CSV', 'route' => null, 'param' => null],
-            ['name' => __('Brand Comparison Report'), 'metrics' => __('Revenue, player count, retention side-by-side'), 'grouping' => __('All / selected brands'), 'export' => 'Excel · PDF', 'route' => null, 'param' => null],
-            ['name' => __('Coupon Usage Report'), 'metrics' => __('Issued, redeemed, expired, redemption rate, cost'), 'grouping' => __('By coupon type, event'), 'export' => 'Excel · CSV', 'route' => 'admin.coupons', 'param' => null],
+            ['name' => __('Player Activity Report'), 'metrics' => __('New signups, active, churned, retention, avg. session'), 'grouping' => __('By brand, agent, VIP tier'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.player-activity', 'param' => null],
+            ['name' => __('Agent Commission Report'), 'metrics' => __('Commission earned, player count, volume, rolling rate'), 'grouping' => __('By agent, period'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.agent-commission', 'param' => null],
+            ['name' => __('Brand Comparison Report'), 'metrics' => __('Revenue, player count, retention side-by-side'), 'grouping' => __('All / selected brands'), 'export' => 'Excel · PDF', 'route' => 'admin.reports.brand-comparison', 'param' => null],
+            ['name' => __('Coupon Usage Report'), 'metrics' => __('Issued, redeemed, expired, redemption rate, cost'), 'grouping' => __('By coupon type, event'), 'export' => 'Excel · CSV', 'route' => 'admin.reports.coupon-usage', 'param' => null],
         ];
     }
 
@@ -400,10 +370,10 @@ class AdminDemoData
     {
         return [
             ['username' => 'player012', 'level' => 5, 'metric' => __('Highest deposit'), 'amount' => 480_000],
-            ['username' => 'player004', 'level' => 4, 'metric' => __('Highest wagering'), 'amount' => 415_000],
-            ['username' => 'player027', 'level' => 3, 'metric' => __('Highest win'), 'amount' => 362_000],
+            ['username' => 'player004', 'level' => 4, 'metric' => __('Highest withdrawal'), 'amount' => 415_000],
+            ['username' => 'player027', 'level' => 3, 'metric' => __('Highest deposit'), 'amount' => 362_000],
             ['username' => 'player008', 'level' => 4, 'metric' => __('Highest deposit'), 'amount' => 305_000],
-            ['username' => 'player015', 'level' => 2, 'metric' => __('Highest wagering'), 'amount' => 268_000],
+            ['username' => 'player015', 'level' => 2, 'metric' => __('Highest withdrawal'), 'amount' => 268_000],
         ];
     }
 
@@ -533,7 +503,7 @@ class AdminDemoData
     public static function announcements(): array
     {
         return [
-            ['id' => 1, 'title' => __('Scheduled maintenance — slots provider'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-26 02:00', 'pinned' => true, 'status' => 'scheduled', 'body' => __('Slot games will be unavailable for 30 minutes during provider maintenance.')],
+            ['id' => 1, 'title' => __('Scheduled maintenance — GCash gateway'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-26 02:00', 'pinned' => true, 'status' => 'scheduled', 'body' => __('GCash deposits and withdrawals will be unavailable for 30 minutes during provider maintenance.')],
             ['id' => 2, 'title' => __('GoTyme zero-fee deposits now live'), 'audience' => 'Dolphin, Champion', 'scheduledAt' => '2026-06-25 09:00', 'pinned' => true, 'status' => 'published', 'body' => __('Deposit via GoTyme with zero transaction fees, available now.')],
             ['id' => 3, 'title' => __('Weekend cashback returns'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-27 00:00', 'pinned' => false, 'status' => 'scheduled', 'body' => __('Earn 10% cashback on net losses every weekend.')],
             ['id' => 4, 'title' => __('Updated KYC verification policy'), 'audience' => __('All brands'), 'scheduledAt' => '2026-06-20 12:00', 'pinned' => false, 'status' => 'published', 'body' => __('New players must complete KYC before their first withdrawal.')],
@@ -572,5 +542,367 @@ class AdminDemoData
             ['id' => 7, 'type' => 'transaction', 'actor' => 'admin', 'action' => __('Cancelled deposit'), 'target' => 'DEP-2026000548 · player005', 'before' => 'pending', 'after' => 'cancelled', 'ip' => '180.191.81.10', 'at' => '2026-06-24 22:14:37'],
             ['id' => 8, 'type' => 'setting', 'actor' => 'admin', 'action' => __('Enabled GoTyme gateway'), 'target' => 'settings.provider', 'before' => 'disabled', 'after' => 'enabled', 'ip' => '180.191.81.10', 'at' => '2026-06-24 18:02:55'],
         ];
+    }
+
+    /**
+     * Full player profile (proposal §4) — header + per-tab data, derived deterministically
+     * from the member roster row so the demo stays internally consistent.
+     *
+     * @return array<string, mixed>
+     */
+    public static function playerProfile(int $id): array
+    {
+        $member = collect(self::members())->firstWhere('id', $id) ?? self::members()[0];
+        $tiers = ['Bronze', 'Silver', 'Gold', 'Platinum'];
+        $tier = $tiers[$id % count($tiers)];
+
+        $transactions = [];
+        for ($i = 1; $i <= 6; $i++) {
+            $dir = $i % 3 === 0 ? 'withdraw' : 'deposit';
+            $transactions[] = [
+                'reference' => ($dir === 'deposit' ? 'DEP' : 'WDL').'-2026'.str_pad((string) ($id * 100 + $i), 6, '0', STR_PAD_LEFT),
+                'type' => $dir,
+                'gateway' => $member['gateway'],
+                'amount' => 1000 * $i + $id * 50,
+                'status' => ['completed', 'completed', 'pending', 'completed', 'cancelled', 'completed'][$i - 1],
+                'at' => '2026-06-'.str_pad((string) (($i * 4 % 27) + 1), 2, '0', STR_PAD_LEFT).' '.str_pad((string) (9 + $i), 2, '0', STR_PAD_LEFT).':12',
+            ];
+        }
+
+        $logins = [];
+        $devices = ['Chrome · Windows', 'Safari · iOS', 'Chrome · Android', 'Edge · Windows'];
+        for ($i = 1; $i <= 5; $i++) {
+            $logins[] = [
+                'at' => '2026-06-'.str_pad((string) (25 - $i), 2, '0', STR_PAD_LEFT).' '.str_pad((string) (8 + $i), 2, '0', STR_PAD_LEFT).':05',
+                'device' => $devices[$i % count($devices)],
+                'ip' => $member['ip'],
+                'duration' => ($i * 17 + 12).'m',
+            ];
+        }
+
+        $coupons = [
+            ['code' => 'WELCOME100', 'value' => '₱100', 'status' => 'redeemed', 'at' => '2026-05-12'],
+            ['code' => 'RELOAD20', 'value' => '20%', 'status' => 'redeemed', 'at' => '2026-06-01'],
+            ['code' => 'WEEKEND15', 'value' => '15%', 'status' => 'expired', 'at' => '2026-06-20'],
+        ];
+
+        $notes = [
+            ['author' => 'admin', 'body' => __('KYC verified, documents on file.'), 'at' => '2026-05-13'],
+            ['author' => 'cs_manager', 'body' => __('Requested faster withdrawals — explained approval flow.'), 'at' => '2026-06-10'],
+        ];
+
+        $activity = [
+            ['action' => __('Logged in'), 'at' => $member['lastLogin']],
+            ['action' => __('Deposit completed'), 'at' => '2026-06-24 11:20'],
+            ['action' => __('Coupon redeemed: RELOAD20'), 'at' => '2026-06-01 09:14'],
+            ['action' => __('VIP tier upgraded to '.$tier), 'at' => '2026-05-30 16:00'],
+        ];
+
+        return [
+            'id' => $member['id'],
+            'username' => $member['username'],
+            'brand' => $member['gateway'].' Brand',
+            'agent' => 'ag_'.strtolower(explode(' ', $member['bank'])[2] ?? 'pedro'),
+            'registered' => $member['joinedAt'],
+            'lastIp' => $member['ip'],
+            'status' => $member['status'],
+            'tier' => $tier,
+            'balance' => $member['balance'],
+            'bonusBalance' => (int) ($member['balance'] * 0.06),
+            'totalDeposit' => $member['deposit'],
+            'totalWithdraw' => $member['withdraw'],
+            'net' => $member['deposit'] - $member['withdraw'],
+            'totalTransactions' => $id * 3 + 18,
+            'totalLogins' => $id * 4 + 40,
+            'transactions' => $transactions,
+            'logins' => $logins,
+            'coupons' => $coupons,
+            'notes' => $notes,
+            'activity' => $activity,
+        ];
+    }
+
+    /**
+     * Profit & Loss report rows (proposal §6).
+     *
+     * @return array<int, array{label:string, gross:int, bonus:int, promo:int, profit:int}>
+     */
+    public static function profitLoss(): array
+    {
+        return [
+            ['label' => __('This week'), 'gross' => 3_590_500, 'bonus' => 320_000, 'promo' => 145_000, 'profit' => 3_125_500],
+            ['label' => __('Last week'), 'gross' => 3_180_000, 'bonus' => 298_000, 'promo' => 132_000, 'profit' => 2_750_000],
+            ['label' => __('Month to date'), 'gross' => 12_540_000, 'bonus' => 1_180_000, 'promo' => 540_000, 'profit' => 10_820_000],
+            ['label' => __('Last month'), 'gross' => 14_120_000, 'bonus' => 1_310_000, 'promo' => 610_000, 'profit' => 12_200_000],
+        ];
+    }
+
+    /**
+     * Coupon usage report (proposal §6/§9).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function couponUsage(): array
+    {
+        return collect(self::coupons())->map(fn ($c) => [
+            'code' => $c['code'],
+            'issued' => $c['maxUses'],
+            'redeemed' => $c['used'],
+            'expired' => max(0, $c['maxUses'] - $c['used']),
+            'rate' => round($c['used'] / max(1, $c['maxUses']) * 100, 1),
+            'cost' => $c['type'] === 'fixed' ? $c['value'] * $c['used'] : (int) ($c['used'] * 250),
+        ])->all();
+    }
+
+    /**
+     * Player activity report (proposal §6).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function playerActivity(): array
+    {
+        return [
+            ['brand' => 'GCash Brand', 'signups' => 84, 'active' => 312, 'churned' => 18, 'retention' => 88.4, 'avgSession' => '42m'],
+            ['brand' => 'Maya Brand', 'signups' => 51, 'active' => 198, 'churned' => 12, 'retention' => 85.1, 'avgSession' => '37m'],
+            ['brand' => 'GoTyme Brand', 'signups' => 33, 'active' => 121, 'churned' => 9, 'retention' => 81.7, 'avgSession' => '29m'],
+        ];
+    }
+
+    /**
+     * Agent commission report (proposal §6).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agentCommission(): array
+    {
+        return collect(self::agents())->map(fn ($a) => [
+            'agent' => $a['username'],
+            'players' => $a['players'],
+            'volume' => $a['volume'],
+            'rate' => $a['rate'],
+            'commission' => (int) ($a['volume'] * $a['rate'] / 100),
+        ])->all();
+    }
+
+    /**
+     * Brand comparison report (proposal §6).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function brandComparison(): array
+    {
+        return [
+            ['brand' => 'GCash Brand', 'revenue' => 1_540_000, 'players' => 312, 'retention' => 88.4],
+            ['brand' => 'Maya Brand', 'revenue' => 1_120_000, 'players' => 198, 'retention' => 85.1],
+            ['brand' => 'GoTyme Brand', 'revenue' => 690_000, 'players' => 121, 'retention' => 81.7],
+        ];
+    }
+
+    /**
+     * Period sales report (proposal §6) — weekly/monthly/yearly trend of the headline figures.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function periodSales(): array
+    {
+        return [
+            ['period' => __('This week'), 'deposit' => 4_820_500, 'withdraw' => 1_230_000, 'net' => 3_590_500, 'players' => 84],
+            ['period' => __('Last week'), 'deposit' => 4_180_000, 'withdraw' => 1_410_000, 'net' => 2_770_000, 'players' => 71],
+            ['period' => __('This month'), 'deposit' => 19_240_000, 'withdraw' => 6_120_000, 'net' => 13_120_000, 'players' => 168],
+            ['period' => __('Last month'), 'deposit' => 21_080_000, 'withdraw' => 7_240_000, 'net' => 13_840_000, 'players' => 192],
+            ['period' => __('Year to date'), 'deposit' => 142_500_000, 'withdraw' => 48_200_000, 'net' => 94_300_000, 'players' => 1_482],
+        ];
+    }
+
+    /**
+     * Agent roster (proposal §7) — head/sub agents with player counts, volume and rolling rate.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agents(): array
+    {
+        $names = ['ag_pedro', 'ag_maria', 'ag_jose', 'ag_liza', 'ag_mark', 'ag_grace', 'ag_paolo', 'ag_trisha'];
+        $levels = ['Head', 'Head', 'Sub', 'Sub', 'Sub', 'Head', 'Sub', 'Sub'];
+        $agents = [];
+
+        foreach ($names as $i => $name) {
+            $agents[] = [
+                'id' => $i + 1,
+                'username' => $name,
+                'level' => $levels[$i],
+                'parent' => $levels[$i] === 'Sub' ? $names[$i % 2 === 0 ? 0 : 1] : null,
+                'players' => 12 + $i * 7,
+                'volume' => 800_000 + $i * 320_000,
+                'commission' => 24_000 + $i * 9_600,
+                'rate' => [1.0, 1.2, 0.8, 0.9, 1.1, 1.5, 0.7, 1.0][$i],
+                'balance' => 1_200_000 + $i * 540_000,
+                'status' => $i % 5 === 3 ? 'suspended' : 'active',
+            ];
+        }
+
+        return $agents;
+    }
+
+    /**
+     * Agent hierarchy tree (proposal §7) — Super → Head → Sub structure for the tree view.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agentTree(): array
+    {
+        $agents = collect(self::agents());
+
+        return $agents->where('level', 'Head')->map(fn ($head) => [
+            'username' => $head['username'],
+            'players' => $head['players'],
+            'subs' => $agents->where('parent', $head['username'])->map(fn ($s) => [
+                'username' => $s['username'],
+                'players' => $s['players'],
+            ])->values()->all(),
+        ])->values()->all();
+    }
+
+    /**
+     * Commission settings per agent (proposal §7).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agentCommissions(): array
+    {
+        return collect(self::agents())->map(fn ($a) => [
+            'id' => $a['id'],
+            'username' => $a['username'],
+            'level' => $a['level'],
+            'type' => $a['id'] % 2 === 0 ? 'turnover' : 'loss',
+            'rate' => $a['rate'],
+            'players' => $a['players'],
+        ])->all();
+    }
+
+    /**
+     * Agent transactions (proposal §7) — deposits/withdrawals processed on behalf of players.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agentTransactions(): array
+    {
+        $agents = self::agents();
+        $rows = [];
+
+        for ($i = 1; $i <= 8; $i++) {
+            $agent = $agents[($i - 1) % count($agents)];
+            $dir = $i % 3 === 0 ? 'withdraw' : 'deposit';
+            $rows[] = [
+                'id' => $i,
+                'agent' => $agent['username'],
+                'player' => 'player'.str_pad((string) ($i * 7), 3, '0', STR_PAD_LEFT),
+                'type' => $dir,
+                'amount' => 2000 * $i + 500,
+                'status' => ['completed', 'completed', 'pending', 'completed'][$i % 4],
+                'at' => '2026-06-'.str_pad((string) (($i * 3 % 27) + 1), 2, '0', STR_PAD_LEFT).' '.str_pad((string) (10 + $i), 2, '0', STR_PAD_LEFT).':22',
+            ];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Agent performance leaderboard (proposal §7).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function agentPerformance(): array
+    {
+        return collect(self::agents())
+            ->sortByDesc('volume')
+            ->values()
+            ->map(fn ($a, $i) => [
+                'rank' => $i + 1,
+                'username' => $a['username'],
+                'players' => $a['players'],
+                'volume' => $a['volume'],
+                'commission' => $a['commission'],
+                'newSignups' => 3 + ($a['id'] * 2 % 11),
+            ])
+            ->all();
+    }
+
+    /**
+     * Daily settlement rows (proposal §13).
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function dailySettlement(): array
+    {
+        $rows = [];
+        for ($i = 0; $i < 7; $i++) {
+            $in = 4_200_000 + $i * 180_000;
+            $out = 1_900_000 + $i * 90_000;
+            $bonus = 120_000 + $i * 8_000;
+            $rows[] = [
+                'date' => now()->subDays($i)->format('Y-m-d'),
+                'in' => $in,
+                'out' => $out,
+                'gross' => $in - $out,
+                'bonus' => $bonus,
+                'net' => $in - $out - $bonus,
+                'status' => $i === 0 ? 'open' : 'settled',
+            ];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Monthly revenue summary (proposal §13).
+     *
+     * @return array<int, array{month:string, revenue:int, withdrawals:int, bonus:int, net:int}>
+     */
+    public static function revenueSummary(): array
+    {
+        return [
+            ['month' => __('Jun 2026'), 'revenue' => 19_240_000, 'withdrawals' => 6_120_000, 'bonus' => 1_180_000, 'net' => 11_940_000],
+            ['month' => __('May 2026'), 'revenue' => 21_080_000, 'withdrawals' => 7_240_000, 'bonus' => 1_310_000, 'net' => 12_530_000],
+            ['month' => __('Apr 2026'), 'revenue' => 18_460_000, 'withdrawals' => 6_010_000, 'bonus' => 1_090_000, 'net' => 11_360_000],
+            ['month' => __('Mar 2026'), 'revenue' => 17_220_000, 'withdrawals' => 5_640_000, 'bonus' => 980_000, 'net' => 10_600_000],
+        ];
+    }
+
+    /**
+     * Balance sheet snapshot (proposal §13) — platform liability vs assets.
+     *
+     * @return array{liabilities:array<int, array{label:string, amount:int}>, assets:array<int, array{label:string, amount:int}>}
+     */
+    public static function balanceSheet(): array
+    {
+        return [
+            'liabilities' => [
+                ['label' => __('Player wallet balances'), 'amount' => 18_420_000],
+                ['label' => __('Pending withdrawals'), 'amount' => 1_230_000],
+                ['label' => __('Outstanding bonuses'), 'amount' => 640_000],
+                ['label' => __('Agent balances'), 'amount' => 96_250_000],
+            ],
+            'assets' => [
+                ['label' => __('Cash on hand (gateways)'), 'amount' => 112_300_000],
+                ['label' => __('Reserve account'), 'amount' => 8_500_000],
+                ['label' => __('Receivables'), 'amount' => 1_840_000],
+            ],
+        ];
+    }
+
+    /**
+     * Commission ledger (proposal §13) — earned / pending / paid per agent.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public static function commissionLedger(): array
+    {
+        return collect(self::agents())->map(fn ($a) => [
+            'agent' => $a['username'],
+            'earned' => $a['commission'],
+            'paid' => (int) ($a['commission'] * 0.7),
+            'pending' => (int) ($a['commission'] * 0.3),
+            'period' => __('Jun 2026'),
+        ])->all();
     }
 }
