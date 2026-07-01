@@ -18,6 +18,21 @@ it('redirects guests from the player area to the login', function () {
     $this->get('/play/history')->assertRedirect(route('player.login'));
 });
 
+it('emits https asset URLs behind an https-terminating proxy (no mixed content)', function () {
+    $html = $this->get('/play/login', ['X-Forwarded-Proto' => 'https'])
+        ->assertOk()
+        ->getContent();
+
+    // The built Vite CSS/JS must be requested over https, never plain http,
+    // or the browser blocks them as mixed content on the HTTPS dev server.
+    // (Inline SVG xmlns="http://www.w3.org/..." is a namespace, not a fetched
+    // resource, so we only assert on src=/href= attributes.)
+    expect($html)
+        ->toContain('/build/assets/')
+        ->not->toContain('src="http://')
+        ->not->toContain('href="http://');
+});
+
 it('shows the demo login with credentials hint', function () {
     $this->get('/play/login')
         ->assertOk()

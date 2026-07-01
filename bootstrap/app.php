@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust the TLS-terminating reverse proxy in front of the app (e.g. the dev
+        // server / Laravel Cloud) so X-Forwarded-Proto is honoured. Without this the
+        // request scheme is seen as HTTP behind an HTTPS proxy, and @vite() emits
+        // http:// asset URLs that browsers block as mixed content.
+        $middleware->trustProxies(at: '*');
+
         $middleware->web(append: [
             SetLocale::class,
         ]);
